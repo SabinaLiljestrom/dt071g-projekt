@@ -1,0 +1,5 @@
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.AssemblyInfoInputs.cache
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.AssemblyInfo.cs
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.csproj.CoreCompileInputs.cache
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.sourcelink.json
