@@ -3,3 +3,13 @@
 /Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.AssemblyInfo.cs
 /Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.csproj.CoreCompileInputs.cache
 /Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.sourcelink.json
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/bin/Debug/net8.0/NummerJakten
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/bin/Debug/net8.0/NummerJakten.deps.json
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/bin/Debug/net8.0/NummerJakten.runtimeconfig.json
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/bin/Debug/net8.0/NummerJakten.dll
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/bin/Debug/net8.0/NummerJakten.pdb
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.dll
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/refint/NummerJakten.dll
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.pdb
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/NummerJakten.genruntimeconfig.cache
+/Users/sabinaliljestrom/Rep/dt071g-projekt/NummerJakten/obj/Debug/net8.0/ref/NummerJakten.dll

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NummerJakten")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+76b9d1b71d9dbb717d52441a7a46532f47088fcd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d9fe8c223cf15a8d9e94658f2ce33051904c81a")]
 [assembly: System.Reflection.AssemblyProductAttribute("NummerJakten")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NummerJakten")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
