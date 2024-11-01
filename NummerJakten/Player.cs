@@ -5,11 +5,13 @@ namespace NummerJakten // Definierar ett namespace för spelet
     class Player // Definierar en klass som heter Player, som representerar spelaren
     {
         public int Mynt { get; private set; } // Offentlig egenskap för att lagra mängden mynt som spelaren har
+         public int SenasteVinsten { get; private set; } // Offentlig egenskap för att lagra senaste vinsten
 
         // Konstruktorn för Player-klassen. Körs när en ny instans av Player skapas
         public Player() 
         {
             Mynt = 0; // Initierar mängden mynt till 0
+            SenasteVinsten = 0; // Initierar senaste vinsten till 0
         }
 
         // Metod för att visa menyn för spelaren
@@ -24,13 +26,17 @@ namespace NummerJakten // Definierar ett namespace för spelet
             Console.WriteLine("4. Avsluta spelet"); // Alternativ för att avsluta spelet
             Console.Write("Ditt val: "); // Ber användaren att ange sitt val
         }
-
+         // Metod för att uppdatera senaste vinsten
+          public void UppdateraSenasteVinsten(int vinst)
+           {
+              SenasteVinsten = vinst; // Spara vinsten
+            }
         // Metod för att visa senaste vinsten
         public void VisaSenasteVinsten() 
         {
             Console.Clear(); // Rensar konsolen för en fräsch vy
             Console.WriteLine("=== Senaste Vinsten ==="); // Skriver ut rubriken för senaste vinsten
-            Console.WriteLine("Ingen vinst har registrerats ännu."); // Meddelar att ingen vinst har registrerats
+            Console.WriteLine(SenasteVinsten > 0 ? $"Din senaste vinst är {SenasteVinsten} mynt." : "Ingen vinst har registrerats ännu."); // Visa senaste vinsten
             Console.WriteLine("Tryck på valfri tangent för att återgå till menyn."); // Ber användaren att trycka på en tangent
             Console.ReadKey(); // Väntar på att användaren ska trycka en tangent
         }
@@ -46,7 +52,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
         }
 
         // Metod för att starta spelet
-      public void StartaSpelet()
+      public void StartaSpelet(SlotMachine slotMachine)
 {
     // Fråga efter spelarens namn
     Console.Clear();
@@ -104,9 +110,16 @@ namespace NummerJakten // Definierar ett namespace för spelet
     Console.WriteLine("Tryck på valfri tangent för att starta spelet.");
     Console.ReadKey(); // Väntar på att användaren ska trycka på en tangent
 
-    // Anropa spelmaskinen här
-    SlotMachine slotMachine = new SlotMachine();
-    Mynt = slotMachine.Play(satsning, totalMynt); // Uppdaterar saldo efter spelet
+   // Anropa spelmaskinen här
+    var (nyttSaldo, winnings) = slotMachine.Play(satsning, totalMynt); // Få både saldo och vinster
+
+    // Uppdatera senaste vinsten i Player
+    UppdateraSenasteVinsten(winnings);
+
+    // Uppdatera saldo
+    Mynt = nyttSaldo; // Uppdaterar saldo efter spelet
+    // Visa det nya saldot efter spelet
+    Console.WriteLine($"Ditt nya saldo är: {Mynt} mynt."); // Visa det nya saldot
 
     Console.WriteLine("Tryck på valfri tangent för att återgå till menyn.");
     Console.ReadKey(); // Väntar på att användaren ska trycka på en tangent

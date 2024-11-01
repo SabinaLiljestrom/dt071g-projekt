@@ -5,6 +5,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
     class Game // Definierar en klass som heter Game
     {
         private Player player = new Player(); // Skapar en instans av Player-klassen
+         private SlotMachine slotMachine = new SlotMachine(); // Skapa en instans av SlotMachine
 
         // Metod för att köra spelet
         public void Run() 
@@ -27,7 +28,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
         switch (val) // Använder switch-sats för att hantera val
         {
             case "1": // Om spelaren väljer 1
-                player.StartaSpelet(); // Använder player-instansen för att starta spelet
+                player.StartaSpelet(slotMachine); // Använder player-instansen för att starta spelet
                 break; // Avslutar switch-satsen
             case "2": // Om spelaren väljer 2
                 player.VisaSenasteVinsten(); // Visar senaste vinsten med player-instansen

@@ -6,7 +6,7 @@ namespace NummerJakten
     {
         private static readonly Random random = new Random();
 
-        public int Play(int satsning, int saldo)
+        public (int saldo, int winnings) Play(int satsning, int saldo)
         {
             int[,] grid = new int[3, 3];
             for (int i = 0; i < 3; i++)
@@ -37,7 +37,7 @@ else
 }
 
 Console.ResetColor(); // Återställ till standardfärger
-            return saldo;
+            return (saldo, winnings);
         }
 
         private void PrintGrid(int[,] grid)
