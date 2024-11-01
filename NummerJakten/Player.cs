@@ -46,12 +46,60 @@ namespace NummerJakten // Definierar ett namespace för spelet
         }
 
         // Metod för att starta spelet
-        public void StartaSpelet()
+       public void StartaSpelet()
+{
+    // Fråga efter spelarens namn
+     Console.Clear();
+    Console.WriteLine("Ange ditt namn: ");
+    string? namn = Console.ReadLine(); // Läser in spelarens namn
+
+    // Rensar konsolen och frågar hur många mynt spelaren vill satsa
+    Console.Clear();
+    Console.WriteLine($"Välkommen, {namn}!");
+
+    // Fråga om antal mynt att lägga in
+    int totalMynt = 0;
+    bool giltigtTotalMynt = false;
+
+    while (!giltigtTotalMynt)
+    {
+        Console.WriteLine("Hur många mynt vill du lägga in?");
+        string? inputTotalMynt = Console.ReadLine();
+
+        // Kontrollera om inmatningen är ett giltigt heltal
+        if (int.TryParse(inputTotalMynt, out totalMynt) && totalMynt > 0)
         {
-            Console.Clear(); // Rensar konsolen för en fräsch vy
-            Console.WriteLine("=== Spelet har startat ==="); // Skriver ut rubriken för spelet
-            Console.WriteLine("Tryck på valfri tangent för att återgå till menyn."); // Ber användaren att trycka på en tangent
-            Console.ReadKey(); // Väntar på att användaren ska trycka en tangent
+            giltigtTotalMynt = true;
+            Console.WriteLine($"Du har lagt in {totalMynt} mynt.");
+        }
+        else
+        {
+            Console.WriteLine("Ogiltigt antal. Ange ett positivt heltal för mynt.");
         }
     }
-}
+
+    // Rensar konsolen och frågar om antal mynt att satsa
+    Console.Clear();
+    int satsning = 0;
+    bool giltigSatsning = false;
+
+    while (!giltigSatsning)
+    {
+        Console.WriteLine($"Hur många mynt vill du satsa för den första rundan? (Du har {totalMynt} mynt tillgängliga)");
+        string? inputSatsning = Console.ReadLine();
+
+        // Kontrollera om inmatningen är ett giltigt heltal och att satsningen inte överstiger tillgängliga mynt
+        if (int.TryParse(inputSatsning, out satsning) && satsning > 0 && satsning <= totalMynt)
+        {
+            giltigSatsning = true;
+            Console.WriteLine($"Du har satsat {satsning} mynt.");
+        }
+        else
+        {
+            Console.WriteLine("Ogiltig satsning. Ange ett positivt heltal som inte överstiger dina tillgängliga mynt.");
+        }
+    }
+
+    Console.WriteLine("Tryck på valfri tangent för att börja spelet.");
+    Console.ReadKey(); // Väntar på att användaren ska trycka på en tangent
+}}}
