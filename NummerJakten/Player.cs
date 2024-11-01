@@ -13,7 +13,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
         }
 
         // Metod för att visa menyn för spelaren
-        public static void VisaMeny() 
+        public void VisaMeny() 
         {
             Console.Clear(); // Rensar konsolen för en fräsch vy
             Console.WriteLine("=== NummerJakten ==="); // Skriver ut rubriken för spelet
@@ -26,7 +26,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
         }
 
         // Metod för att visa senaste vinsten
-        public static void VisaSenasteVinsten() 
+        public void VisaSenasteVinsten() 
         {
             Console.Clear(); // Rensar konsolen för en fräsch vy
             Console.WriteLine("=== Senaste Vinsten ==="); // Skriver ut rubriken för senaste vinsten
@@ -36,7 +36,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
         }
 
         // Metod för att visa högsta vinsten
-        public static void VisaHogstaVinsten() 
+        public void VisaHogstaVinsten() 
         {
             Console.Clear(); // Rensar konsolen för en fräsch vy
             Console.WriteLine("=== Högsta Vinsten ==="); // Skriver ut rubriken för högsta vinsten
@@ -46,7 +46,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
         }
 
         // Metod för att starta spelet
-        public static void StartaSpelet()
+        public void StartaSpelet()
         {
             Console.Clear(); // Rensar konsolen för en fräsch vy
             Console.WriteLine("=== Spelet har startat ==="); // Skriver ut rubriken för spelet
