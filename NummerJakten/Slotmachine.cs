@@ -19,28 +19,57 @@ namespace NummerJakten
 
             Console.Clear();
             Console.WriteLine("=== Nummer Jakten ===");
-            PrintGrid(grid);
+            PrintGrid(grid); // Skriver ut spelplanen
 
             // Kontrollera vinstkombinationer
             int winnings = CalculateWinnings(grid, satsning);
 
             saldo += winnings - satsning; // Uppdaterar saldo efter vinst eller förlust
-            Console.WriteLine(winnings > 0 ? $"Grattis! Du vann {winnings} mynt!" : "Tyvärr, ingen vinst.");
-            Console.WriteLine($"Ditt nya saldo är {saldo} mynt.");
+         if (winnings > 0)
+{
+    Console.ForegroundColor = ConsoleColor.Green; // Sätt färg till grön för vinster
+    Console.WriteLine($"Grattis! Du vann {winnings} mynt!");
+}
+else
+{
+    Console.ForegroundColor = ConsoleColor.Red; // Sätt färg till röd för förluster
+    Console.WriteLine("Tyvärr, ingen vinst.");
+}
 
+Console.ResetColor(); // Återställ till standardfärger
             return saldo;
         }
 
         private void PrintGrid(int[,] grid)
         {
-            for (int i = 0; i < 3; i++)
+            Console.WriteLine("┌───┬───┬───┐"); // Översta ramen
+
+            // Skriv ut den första raden med vertikala streck
+            for (int j = 0; j < 3; j++)
             {
-                for (int j = 0; j < 3; j++)
-                {
-                    Console.Write(grid[i, j] + " ");
-                }
-                Console.WriteLine();
+                Console.Write($"│ {grid[0, j]} "); // Skriv ut siffran med utrymme
             }
+            Console.WriteLine("│"); // Avsluta raden
+
+            Console.WriteLine("├───┼───┼───┤"); // Linje mellan raderna
+
+            // Skriv ut den andra raden med vertikala streck
+            for (int j = 0; j < 3; j++)
+            {
+                Console.Write($"│ {grid[1, j]} "); // Skriv ut siffran med utrymme
+            }
+            Console.WriteLine("│"); // Avsluta raden
+
+            Console.WriteLine("├───┼───┼───┤"); // Linje mellan raderna
+
+            // Skriv ut den tredje raden med vertikala streck
+            for (int j = 0; j < 3; j++)
+            {
+                Console.Write($"│ {grid[2, j]} "); // Skriv ut siffran med utrymme
+            }
+            Console.WriteLine("│"); // Avsluta raden
+
+            Console.WriteLine("└───┴───┴───┘"); // Nedersta ramen
         }
 
         private int CalculateWinnings(int[,] grid, int satsning)
