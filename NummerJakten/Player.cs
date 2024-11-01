@@ -46,14 +46,14 @@ namespace NummerJakten // Definierar ett namespace för spelet
         }
 
         // Metod för att starta spelet
-       public void StartaSpelet()
+      public void StartaSpelet()
 {
     // Fråga efter spelarens namn
-     Console.Clear();
+    Console.Clear();
     Console.WriteLine("Ange ditt namn: ");
     string? namn = Console.ReadLine(); // Läser in spelarens namn
 
-    // Rensar konsolen och frågar hur många mynt spelaren vill satsa
+    // Rensar konsolen och frågar hur många mynt spelaren vill lägga in
     Console.Clear();
     Console.WriteLine($"Välkommen, {namn}!");
 
@@ -100,6 +100,16 @@ namespace NummerJakten // Definierar ett namespace för spelet
         }
     }
 
-    Console.WriteLine("Tryck på valfri tangent för att börja spelet.");
+    // Vänta på att spelaren trycker på valfri tangent för att börja spelet
+    Console.WriteLine("Tryck på valfri tangent för att starta spelet.");
     Console.ReadKey(); // Väntar på att användaren ska trycka på en tangent
-}}}
+
+    // Anropa spelmaskinen här
+    SlotMachine slotMachine = new SlotMachine();
+    Mynt = slotMachine.Play(satsning, totalMynt); // Uppdaterar saldo efter spelet
+
+    Console.WriteLine("Tryck på valfri tangent för att återgå till menyn.");
+    Console.ReadKey(); // Väntar på att användaren ska trycka på en tangent
+}
+
+}}
