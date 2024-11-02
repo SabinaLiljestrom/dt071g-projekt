@@ -61,56 +61,87 @@ namespace NummerJakten // Definierar ett namespace för spelet
             Console.ReadKey();
         }
 
-        public void FortsaettSpela(SlotMachine slotMachine)
+      public void FortsaettSpela(SlotMachine slotMachine)
+{
+    while (Mynt > 0) // Kontrollera om spelaren har mynt kvar
+    {
+        int satsning = 0;
+        bool giltigSatsning = false;
+
+        while (!giltigSatsning)
         {
-            while (Mynt > 0) // Kontrollera om spelaren har mynt kvar
+            Console.WriteLine($"Hur många mynt vill du satsa? (Du har {Mynt} mynt tillgängliga)");
+            string? inputSatsning = Console.ReadLine();
+
+            // Kontrollera om inmatningen är giltig
+            if (int.TryParse(inputSatsning, out satsning) && satsning > 0 && satsning <= Mynt)
             {
-                int satsning = 0;
-                bool giltigSatsning = false;
-
-                while (!giltigSatsning)
-                {
-                    Console.WriteLine($"Hur många mynt vill du satsa? (Du har {Mynt} mynt tillgängliga)");
-                    string? inputSatsning = Console.ReadLine();
-
-                    // Kontrollera om inmatningen är giltig
-                    if (int.TryParse(inputSatsning, out satsning) && satsning > 0 && satsning <= Mynt)
-                    {
-                        giltigSatsning = true;
-                        Console.WriteLine($"Du har satsat {satsning} mynt.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Ogiltig satsning. Ange ett positivt heltal som inte överstiger dina tillgängliga mynt.");
-                    }
-                }
-
-                // Anropa spelmaskinen för att spela en ny runda
-                var (nyttSaldo, winnings) = slotMachine.Play(satsning, Mynt);
-                UppdateraSenasteVinsten(winnings);
-                Mynt = nyttSaldo; // Uppdatera saldo
-
-                // Visa det nya saldot
-                Console.WriteLine($"Ditt nya saldo är: {Mynt} mynt.");
-
-                if (Mynt <= 0)
-                {
-                    Console.WriteLine("Du har inga mynt kvar! Vänligen återvänd till menyn.");
-                    break; // Avbryt loopen om spelaren inte har några mynt kvar
-                }
-
-                // Fråga om spelaren vill fortsätta spela
-                Console.WriteLine("Vill du fortsätta spela? (j/n)");
-                string? fortsattaVal = Console.ReadLine();
-
-                if (fortsattaVal?.ToLower() != "j")
-                {
-                    break; // Avbryt loopen om spelaren inte vill fortsätta
-                }
+                giltigSatsning = true;
+                Console.WriteLine($"Du har satsat {satsning} mynt.");
             }
-            Console.WriteLine("Tryck på valfri tangent för att återgå till menyn.");
-            Console.ReadKey();
+            else
+            {
+                Console.WriteLine("Ogiltig satsning. Ange ett positivt heltal som inte överstiger dina tillgängliga mynt.");
+            }
         }
+
+        // Anropa spelmaskinen för att spela en ny runda
+        var (nyttSaldo, winnings) = slotMachine.Play(satsning, Mynt);
+        UppdateraSenasteVinsten(winnings);
+        Mynt = nyttSaldo; // Uppdatera saldo
+
+        // Visa det nya saldot
+        Console.WriteLine($"Ditt nya saldo är: {Mynt} mynt.");
+
+        // Kontrollera om spelaren vann något
+        if (winnings > 0)
+        {
+            Console.WriteLine($"Du vann {winnings} mynt! Vill du spela 'kvitt eller dubbelt' med din vinst? (j/n)");
+            string? val = Console.ReadLine();
+
+            if (val?.ToLower() == "j")
+            {
+                // Skapa instans av KvittEllerDubbelt och spela
+                KvittEllerDubbelt kvittEllerDubbelt = new KvittEllerDubbelt();
+                Mynt += kvittEllerDubbelt.Spela(winnings); // Uppdatera spelarens saldo
+                Console.WriteLine($"Ditt nya saldo efter 'kvitt eller dubbelt' är: {Mynt} mynt.");
+            }
+        }
+
+        if (Mynt <= 0)
+        {
+            Console.WriteLine("Du har inga mynt kvar! Vänligen återvänd till menyn.");
+            break; // Avbryt loopen om spelaren inte har några mynt kvar
+        }
+
+      string? fortsattaVal;
+while (true)
+{
+    Console.WriteLine("Vill du fortsätta spela? (j/n)");
+    fortsattaVal = Console.ReadLine()?.ToLower();
+
+    if (fortsattaVal == "j")
+    {
+        // Om spelaren vill fortsätta, bryt ur loopen och fortsätt spelet
+        break;
+    }
+    else if (fortsattaVal == "n")
+    {
+        // Om spelaren inte vill fortsätta, avsluta funktionen och spelet
+        Console.WriteLine("Spelet är slut. Tack för att du spelade!");
+        Console.ReadKey(); // Väntar på att användaren ska trycka på en tangent innan programmet avslutas
+        return; // Avslutar metoden för att återgå till huvudmenyn eller avsluta spelet
+    }
+    else
+    {
+        // Felmeddelande om inmatningen är ogiltig
+        Console.WriteLine("Ogiltigt alternativ. Vänligen välj 'j' för att fortsätta eller 'n' för att avsluta.");
+    }
+}
+    }
+    Console.WriteLine("Tryck på valfri tangent för att återgå till menyn.");
+    Console.ReadKey();
+}
 
         public void StartaSpelet(SlotMachine slotMachine)
         {
