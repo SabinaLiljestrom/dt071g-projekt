@@ -6,12 +6,15 @@ namespace NummerJakten // Definierar ett namespace för spelet
     {
         public int Mynt { get; private set; } // Offentlig egenskap för att lagra mängden mynt som spelaren har
          public int SenasteVinsten { get; private set; } // Offentlig egenskap för att lagra senaste vinsten
-
+         public int HogstaVinsten { get; private set; }
         // Konstruktorn för Player-klassen. Körs när en ny instans av Player skapas
+        private DatabaseHelper dbHelper = new DatabaseHelper(); // Skapar instans av DatabaseHelper
         public Player() 
         {
-            Mynt = 0; // Initierar mängden mynt till 0
-            SenasteVinsten = 0; // Initierar senaste vinsten till 0
+             // Laddar tidigare vinster från databasen
+            SenasteVinsten = dbHelper.LoadLatestWin();
+            HogstaVinsten = dbHelper.LoadHighestWin();
+            Mynt = 0;
         }
 
         // Metod för att visa menyn för spelaren
@@ -29,7 +32,15 @@ namespace NummerJakten // Definierar ett namespace för spelet
          // Metod för att uppdatera senaste vinsten
           public void UppdateraSenasteVinsten(int vinst)
            {
-              SenasteVinsten = vinst; // Spara vinsten
+           SenasteVinsten = vinst;
+            dbHelper.SaveLatestWin(vinst); // Sparar senaste vinsten i databasen
+
+            // Uppdatera högsta vinsten om den nya vinsten är högre
+            if (vinst > HogstaVinsten)
+            {
+                HogstaVinsten = vinst;
+                dbHelper.SaveHighestWin(vinst); // Sparar högsta vinsten i databasen
+            }
             }
         // Metod för att visa senaste vinsten
         public void VisaSenasteVinsten() 
@@ -46,7 +57,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
         {
             Console.Clear(); // Rensar konsolen för en fräsch vy
             Console.WriteLine("=== Högsta Vinsten ==="); // Skriver ut rubriken för högsta vinsten
-            Console.WriteLine("Ingen högsta vinst har registrerats ännu."); // Meddelar att ingen högsta vinst har registrerats
+           Console.WriteLine(HogstaVinsten > 0 ? $"Din högsta vinst är {HogstaVinsten} mynt." : "Ingen högsta vinst har registrerats ännu.");
             Console.WriteLine("Tryck på valfri tangent för att återgå till menyn."); // Ber användaren att trycka på en tangent
             Console.ReadKey(); // Väntar på att användaren ska trycka en tangent
         }
