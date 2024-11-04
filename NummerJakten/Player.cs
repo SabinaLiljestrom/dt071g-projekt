@@ -24,7 +24,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
             Console.WriteLine("=== NummerJakten ===");
             Console.WriteLine("Välj ett alternativ:");
             Console.WriteLine("1. Starta spelet");
-            Console.WriteLine("2. Visa senaste vinsten");
+            Console.WriteLine("2. Spel historik");
             Console.WriteLine("3. Visa högsta vinsten");
             Console.WriteLine("4. Avsluta spelet");
             Console.Write("Ditt val: ");
@@ -46,8 +46,8 @@ namespace NummerJakten // Definierar ett namespace för spelet
         public void VisaSenasteVinsten() 
         {
             Console.Clear();
-            Console.WriteLine("=== Senaste Vinsten ===");
-            Console.WriteLine(SenasteVinsten > 0 ? $"Din senaste vinst är {SenasteVinsten} mynt." : "Ingen vinst har registrerats ännu.");
+            Console.WriteLine("=== Spel historik ===");
+            Console.WriteLine(SenasteVinsten > 0 ? $"Den senaste vinsten är {SenasteVinsten} mynt." : "Senaste spelet gav ingen vinst.");
             Console.WriteLine("Tryck på valfri tangent för att återgå till menyn.");
             Console.ReadKey();
         }
@@ -61,7 +61,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
             Console.ReadKey();
         }
 
-      public void FortsaettSpela(SlotMachine slotMachine)
+ public void FortsaettSpela(SlotMachine slotMachine)
 {
     while (Mynt > 0) // Kontrollera om spelaren har mynt kvar
     {
@@ -77,6 +77,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
             if (int.TryParse(inputSatsning, out satsning) && satsning > 0 && satsning <= Mynt)
             {
                 giltigSatsning = true;
+                Mynt -= satsning;  // Dra bort satsningen direkt från saldot
                 Console.WriteLine($"Du har satsat {satsning} mynt.");
             }
             else
@@ -87,58 +88,67 @@ namespace NummerJakten // Definierar ett namespace för spelet
 
         // Anropa spelmaskinen för att spela en ny runda
         var (nyttSaldo, winnings) = slotMachine.Play(satsning, Mynt);
-        UppdateraSenasteVinsten(winnings);
-        Mynt = nyttSaldo; // Uppdatera saldo
 
-        // Visa det nya saldot
-        Console.WriteLine($"Ditt nya saldo är: {Mynt} mynt.");
-
-        // Kontrollera om spelaren vann något
+        // Om spelaren vann, fråga om de vill spela kvitt eller dubbelt
         if (winnings > 0)
         {
-            Console.WriteLine($"Du vann {winnings} mynt! Vill du spela 'kvitt eller dubbelt' med din vinst? (j/n)");
+            Console.WriteLine($"Grattis! Du vann {winnings} mynt! Vill du spela 'kvitt eller dubbelt' med din vinst? (j/n)");
             string? val = Console.ReadLine();
 
             if (val?.ToLower() == "j")
             {
-                // Skapa instans av KvittEllerDubbelt och spela
+                // Spela kvitt eller dubbelt
                 KvittEllerDubbelt kvittEllerDubbelt = new KvittEllerDubbelt();
-                Mynt += kvittEllerDubbelt.Spela(winnings); // Uppdatera spelarens saldo
-                Console.WriteLine($"Ditt nya saldo efter 'kvitt eller dubbelt' är: {Mynt} mynt.");
+                int kvittEllerDubbeltVinst = kvittEllerDubbelt.Spela(winnings);
+
+                // Uppdatera saldo beroende på resultatet av kvitt eller dubbelt
+                Mynt += kvittEllerDubbeltVinst;
+                UppdateraSenasteVinsten(kvittEllerDubbeltVinst); // Logga den senaste vinsten
+            }
+            else
+            {
+                // Om spelaren inte spelar kvitt eller dubbelt, lägg till grundvinsten
+                Mynt += winnings;
+                UppdateraSenasteVinsten(winnings); // Logga grundvinsten som senaste vinst
             }
         }
+        else
+        {
+            UppdateraSenasteVinsten(0); // Inget att logga om det inte var någon vinst
+        }
 
+        Console.WriteLine($"Ditt saldo är nu: {Mynt} mynt.");
+
+        // Kontrollera om spelaren har några mynt kvar för att fortsätta spela
         if (Mynt <= 0)
         {
             Console.WriteLine("Du har inga mynt kvar! Vänligen återvänd till menyn.");
-            break; // Avbryt loopen om spelaren inte har några mynt kvar
+            break;
         }
 
-      string? fortsattaVal;
-while (true)
-{
-    Console.WriteLine("Vill du fortsätta spela? (j/n)");
-    fortsattaVal = Console.ReadLine()?.ToLower();
+        string? fortsattaVal;
+        while (true)
+        {
+            Console.WriteLine("Vill du fortsätta spela? (j/n)");
+            fortsattaVal = Console.ReadLine()?.ToLower();
 
-    if (fortsattaVal == "j")
-    {
-        // Om spelaren vill fortsätta, bryt ur loopen och fortsätt spelet
-        break;
+            if (fortsattaVal == "j")
+            {
+                break;
+            }
+            else if (fortsattaVal == "n")
+            {
+                Console.WriteLine("Spelet är slut. Tack för att du spelade!");
+                Console.ReadKey();
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt alternativ. Vänligen välj 'j' för att fortsätta eller 'n' för att avsluta.");
+            }
+        }
     }
-    else if (fortsattaVal == "n")
-    {
-        // Om spelaren inte vill fortsätta, avsluta funktionen och spelet
-        Console.WriteLine("Spelet är slut. Tack för att du spelade!");
-        Console.ReadKey(); // Väntar på att användaren ska trycka på en tangent innan programmet avslutas
-        return; // Avslutar metoden för att återgå till huvudmenyn eller avsluta spelet
-    }
-    else
-    {
-        // Felmeddelande om inmatningen är ogiltig
-        Console.WriteLine("Ogiltigt alternativ. Vänligen välj 'j' för att fortsätta eller 'n' för att avsluta.");
-    }
-}
-    }
+
     Console.WriteLine("Tryck på valfri tangent för att återgå till menyn.");
     Console.ReadKey();
 }

@@ -5,15 +5,33 @@ namespace NummerJakten
     class SlotMachine
     {
         private static readonly Random random = new Random();
+        private int omgangsnummer = 0; // Räknar antalet spelomgångar
 
         public (int saldo, int winnings) Play(int satsning, int saldo)
         {
-            int[,] grid = new int[3, 3];
-            for (int i = 0; i < 3; i++)
+            // Öka omgångsnumret vid varje spelomgång
+            omgangsnummer++;
+
+            int[,] grid;
+
+            // Sätt en högre chans att vinna i början eller med låg balans
+    double vinstchans = (omgangsnummer <= 5 || saldo < 5) ? 0.7 : 0.3;
+
+    // Kontrollera om vi ska generera ett vinnande rutnät baserat på vinstchansen
+    if (random.NextDouble() < vinstchans)
             {
-                for (int j = 0; j < 3; j++)
+                grid = GenereraVinnandeRutnat();
+            }
+            else
+            {
+                // Generera slumpmässigt rutnät
+                grid = new int[3, 3];
+                for (int i = 0; i < 3; i++)
                 {
-                    grid[i, j] = random.Next(0, 10); // Genererar slumpmässiga siffror mellan 0 och 9
+                    for (int j = 0; j < 3; j++)
+                    {
+                        grid[i, j] = random.Next(0, 10); // Slumpmässiga siffror mellan 0 och 9
+                    }
                 }
             }
 
@@ -24,50 +42,95 @@ namespace NummerJakten
             // Kontrollera vinstkombinationer
             int winnings = CalculateWinnings(grid, satsning);
 
-            saldo += winnings - satsning; // Uppdaterar saldo efter vinst eller förlust
-         if (winnings > 0)
-{
-    Console.ForegroundColor = ConsoleColor.Green; // Sätt färg till grön för vinster
-    Console.WriteLine($"Grattis! Du vann {winnings} mynt!");
-}
-else
-{
-    Console.ForegroundColor = ConsoleColor.Red; // Sätt färg till röd för förluster
-    Console.WriteLine("Tyvärr, ingen vinst.");
-}
+            // Uppdaterar saldo efter vinst eller förlust
+            saldo += winnings - satsning;
 
-Console.ResetColor(); // Återställ till standardfärger
+            if (winnings > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Green; // Grön färg för vinster
+                Console.WriteLine($"Grattis! Du vann {winnings} mynt!");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red; // Röd färg för förluster
+                Console.WriteLine("Tyvärr, ingen vinst.");
+            }
+
+            Console.ResetColor(); // Återställ standardfärger
             return (saldo, winnings);
         }
+
+        private int[,] GenereraVinnandeRutnat()
+{
+    int[,] grid = new int[3, 3];
+    int vinnandeNummer = random.Next(0, 10);
+
+    // Slumpa vilken typ av vinstkombination som ska skapas
+    int vinstTyp = random.Next(0, 5);
+
+    switch (vinstTyp)
+    {
+        case 0: // Tre lika på övre raden
+            grid[0, 0] = vinnandeNummer;
+            grid[0, 1] = vinnandeNummer;
+            grid[0, 2] = vinnandeNummer;
+            break;
+        case 1: // Tre lika på mittenraden
+            grid[1, 0] = vinnandeNummer;
+            grid[1, 1] = vinnandeNummer;
+            grid[1, 2] = vinnandeNummer;
+            break;
+        case 2: // Tre lika på nedre raden
+            grid[2, 0] = vinnandeNummer;
+            grid[2, 1] = vinnandeNummer;
+            grid[2, 2] = vinnandeNummer;
+            break;
+        case 3: // Diagonal från vänster upp till höger ned
+            grid[0, 0] = vinnandeNummer;
+            grid[1, 1] = vinnandeNummer;
+            grid[2, 2] = vinnandeNummer;
+            break;
+        case 4: // Diagonal från höger upp till vänster ned
+            grid[0, 2] = vinnandeNummer;
+            grid[1, 1] = vinnandeNummer;
+            grid[2, 0] = vinnandeNummer;
+            break;
+    }
+
+    // Fyll resterande positioner med slumpmässiga nummer
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (grid[i, j] == 0) // Endast om positionen inte redan är ifylld
+            {
+                grid[i, j] = random.Next(0, 10);
+            }
+        }
+    }
+
+    Console.WriteLine("Vinnande rutnät genererat automatiskt.");
+    return grid;
+}
+
 
         private void PrintGrid(int[,] grid)
         {
             Console.WriteLine("┌───┬───┬───┐"); // Översta ramen
 
-            // Skriv ut den första raden med vertikala streck
-            for (int j = 0; j < 3; j++)
+            for (int i = 0; i < 3; i++)
             {
-                Console.Write($"│ {grid[0, j]} "); // Skriv ut siffran med utrymme
+                for (int j = 0; j < 3; j++)
+                {
+                    Console.Write($"│ {grid[i, j]} "); // Skriv ut siffran med utrymme
+                }
+                Console.WriteLine("│");
+
+                if (i < 2)
+                {
+                    Console.WriteLine("├───┼───┼───┤"); // Linje mellan raderna
+                }
             }
-            Console.WriteLine("│"); // Avsluta raden
-
-            Console.WriteLine("├───┼───┼───┤"); // Linje mellan raderna
-
-            // Skriv ut den andra raden med vertikala streck
-            for (int j = 0; j < 3; j++)
-            {
-                Console.Write($"│ {grid[1, j]} "); // Skriv ut siffran med utrymme
-            }
-            Console.WriteLine("│"); // Avsluta raden
-
-            Console.WriteLine("├───┼───┼───┤"); // Linje mellan raderna
-
-            // Skriv ut den tredje raden med vertikala streck
-            for (int j = 0; j < 3; j++)
-            {
-                Console.Write($"│ {grid[2, j]} "); // Skriv ut siffran med utrymme
-            }
-            Console.WriteLine("│"); // Avsluta raden
 
             Console.WriteLine("└───┴───┴───┘"); // Nedersta ramen
         }
@@ -77,13 +140,13 @@ Console.ResetColor(); // Återställ till standardfärger
             int winnings = 0;
 
             // Kontroll för mitten
-            if (grid[1, 1] == grid[0, 0] && grid[1, 1] == grid[2, 2]) winnings += satsning * 5;
+            if (grid[1, 1] == grid[0, 0] && grid[1, 1] == grid[2, 2]) winnings += satsning * 10;
 
             // Kontroll för tre lika på övre raden
-            if (grid[0, 0] == grid[0, 1] && grid[0, 1] == grid[0, 2]) winnings += satsning * 2;
+            if (grid[0, 0] == grid[0, 1] && grid[0, 1] == grid[0, 2]) winnings += satsning * 5;
 
             // Kontroll för tre lika på nedre raden
-            if (grid[2, 0] == grid[2, 1] && grid[2, 1] == grid[2, 2]) winnings += satsning * 2;
+            if (grid[2, 0] == grid[2, 1] && grid[2, 1] == grid[2, 2]) winnings += satsning * 5;
 
             // Kontroll för fyra lika i hörnen
             if (grid[0, 0] == grid[0, 2] && grid[0, 2] == grid[2, 0] && grid[2, 0] == grid[2, 2]) winnings += (int)(satsning * 0.5);

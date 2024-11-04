@@ -28,14 +28,14 @@ namespace NummerJakten
                 {
                     saldo *= 2; // Dubbla vinsten
                     Console.ForegroundColor = ConsoleColor.Green; // Sätt färg till grön för vinster
-                    Console.WriteLine($"Grattis! Du vann! Ditt saldo är nu: {saldo} mynt.");
+                    Console.WriteLine($"Grattis! Du vann! Ditt vinst är nu: {saldo} mynt.");
                     Console.ResetColor(); // Återställ färgen till standard
                 }
                 else
                 {
                     saldo = 0; // Förlora vinsten
                     Console.ForegroundColor = ConsoleColor.Red; // Sätt färg till röd för förluster
-                    Console.WriteLine("Tyvärr, du förlorade. Ditt saldo är nu 0.");
+                    Console.WriteLine($"Tyvärr, du förlorade. Din vinst är förlorad.");
                     Console.ResetColor(); // Återställ färgen till standard
                     break; // Avsluta spelet
                 }
