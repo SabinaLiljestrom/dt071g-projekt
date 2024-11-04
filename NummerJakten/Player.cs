@@ -24,7 +24,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
             Console.WriteLine("=== NummerJakten ===");
             Console.WriteLine("Välj ett alternativ:");
             Console.WriteLine("1. Starta spelet");
-            Console.WriteLine("2. Spel historik");
+            Console.WriteLine("2. Spelhistorik");
             Console.WriteLine("3. Visa högsta vinsten");
             Console.WriteLine("4. Avsluta spelet");
             Console.Write("Ditt val: ");
@@ -46,7 +46,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
         public void VisaSenasteVinsten() 
         {
             Console.Clear();
-            Console.WriteLine("=== Spel historik ===");
+            Console.WriteLine("=== Spelhistorik ===");
             Console.WriteLine(SenasteVinsten > 0 ? $"Den senaste vinsten är {SenasteVinsten} mynt." : "Senaste spelet gav ingen vinst.");
             Console.WriteLine("Tryck på valfri tangent för att återgå till menyn.");
             Console.ReadKey();
@@ -92,7 +92,7 @@ namespace NummerJakten // Definierar ett namespace för spelet
         // Om spelaren vann, fråga om de vill spela kvitt eller dubbelt
         if (winnings > 0)
         {
-            Console.WriteLine($"Grattis! Du vann {winnings} mynt! Vill du spela 'kvitt eller dubbelt' med din vinst? (j/n)");
+            Console.WriteLine("Vill du spela 'kvitt eller dubbelt' med din vinst? (j/n)");
             string? val = Console.ReadLine();
 
             if (val?.ToLower() == "j")

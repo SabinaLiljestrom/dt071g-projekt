@@ -109,7 +109,6 @@ namespace NummerJakten
         }
     }
 
-    Console.WriteLine("Vinnande rutnät genererat automatiskt.");
     return grid;
 }
 
