@@ -136,26 +136,25 @@ namespace NummerJakten
 
         private int CalculateWinnings(int[,] grid, int satsning)
         {
-            int winnings = 0;
+             int winnings = 0;
 
-            // Kontroll för mitten
-            if (grid[1, 1] == grid[0, 0] && grid[1, 1] == grid[2, 2]) winnings += satsning * 10;
+    // Kontrollera tre lika på varje rad
+    if (grid[0, 0] == grid[0, 1] && grid[0, 1] == grid[0, 2])
+        winnings += satsning * 5;
+    if (grid[1, 0] == grid[1, 1] && grid[1, 1] == grid[1, 2])
+        winnings += satsning * 5;
+    if (grid[2, 0] == grid[2, 1] && grid[2, 1] == grid[2, 2])
+        winnings += satsning * 5;
 
-            // Kontroll för tre lika på övre raden
-            if (grid[0, 0] == grid[0, 1] && grid[0, 1] == grid[0, 2]) winnings += satsning * 5;
+    // Kontrollera diagonaler
+    if (grid[0, 0] == grid[1, 1] && grid[1, 1] == grid[2, 2])
+        winnings += satsning * 10;
+    if (grid[0, 2] == grid[1, 1] && grid[1, 1] == grid[2, 0])
+        winnings += satsning * 10;
 
-            // Kontroll för tre lika på nedre raden
-            if (grid[2, 0] == grid[2, 1] && grid[2, 1] == grid[2, 2]) winnings += satsning * 5;
-
-            // Kontroll för fyra lika i hörnen
-            if (grid[0, 0] == grid[0, 2] && grid[0, 2] == grid[2, 0] && grid[2, 0] == grid[2, 2]) winnings += (int)(satsning * 0.5);
-
-            // Kontroll för lika på båda diagonalerna
-            if ((grid[0, 0] == grid[1, 1] && grid[1, 1] == grid[2, 2]) ||
-                (grid[0, 2] == grid[1, 1] && grid[1, 1] == grid[2, 0]))
-            {
-                winnings += satsning;
-            }
+    // Kontrollera hörn
+    if (grid[0, 0] == grid[0, 2] && grid[0, 2] == grid[2, 0] && grid[2, 0] == grid[2, 2])
+        winnings += (int)(satsning * 0.5);
 
             return winnings;
         }
